@@ -1,6 +1,6 @@
 # CLI and project contract
 
-Install the CLI from the Lanes repository with `python3 -m pip install .` in a suitable Python environment. The installed command is `lanes`; the Python distribution is `agent-lanes`. Runtime dependencies are Python 3.9+ and Git on macOS or Linux. Windows users may run it entirely within WSL; Windows-host consumers are outside that coordination boundary.
+Install the CLI from the [Lanes repository](https://github.com/libdx/lanes) with `python3 -m pip install .` in a suitable Python environment. The installed command is `lanes`; the Python distribution is `agent-lanes`. Runtime dependencies are Python 3.9+ and Git on macOS or Linux. Windows users may run it entirely within WSL; Windows-host consumers are outside that coordination boundary.
 
 Global arguments precede the subcommand:
 
