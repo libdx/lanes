@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-lanes"
+version = "0.1.0"
+description = "Coordinate parallel agent work, Git worktrees, and shared resources"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "libdx"}]
+classifiers = [
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS",
+  "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Repository = "https://github.com/libdx/lanes"
+
+[project.scripts]
+lanes = "lanes.cli:main"
+
+[tool.setuptools]
+packages = ["lanes"]

@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "base": "main",
+  "prefix": null,
+  "resources": {
+    "scratch": {
+      "kind": "storage",
+      "provision": "fresh",
+      "identity": "path:{state}/scratch"
+    },
+    "reference-data": {
+      "kind": "storage",
+      "provision": "shared",
+      "identity": "path:{repo}/../datasets/reference"
+    },
+    "heavy-check": {
+      "kind": "resource",
+      "identity": "host:heavy-verification"
+    }
+  },
+  "commands": {
+    "demo": {
+      "argv": ["python3", "-c", "import pathlib,sys; p=pathlib.Path(sys.argv[1]); p.write_text('lane-owned output\\n'); print(p)", "{state}/scratch/result.txt"],
+      "claims": {"scratch": "exclusive"},
+      "prepare": [["python3", "-c", "import pathlib,sys; pathlib.Path(sys.argv[1]).mkdir(parents=True, exist_ok=True)", "{state}/scratch"]]
+    },
+    "inspect-dataset": {
+      "argv": ["python3", "-c", "import pathlib,sys; print(*pathlib.Path(sys.argv[1]).iterdir(), sep='\\n')", "{repo}/../datasets/reference"],
+      "claims": {"reference-data": "shared-read"}
+    },
+    "test": {
+      "argv": ["python3", "-m", "unittest", "discover", "-s", "tests", "-v"],
+      "claims": {"heavy-check": "exclusive"}
+    }
+  }
+}

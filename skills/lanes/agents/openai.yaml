@@ -1,0 +1,6 @@
+interface:
+  display_name: "Lanes"
+  short_description: "Coordinate parallel worktrees and shared resources"
+  default_prompt: "Use $lanes to organize parallel work with isolated worktrees and coordinated resource claims."
+policy:
+  allow_implicit_invocation: true
