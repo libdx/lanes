@@ -68,7 +68,7 @@ The above declares database isolation; projects must supply their own supported 
 - Preparation runs sequentially before the main command. Stop and verification hooks run even after partial preparation or startup failure. A failed stop/verification retains claims. A normal foreground command failure releases claims after confirmed shutdown.
 - `detached: true` requires nonempty stop and verification hooks. The main command defines the operation's duration; a command that merely starts a daemon will proceed immediately to stop hooks. Put service startup in preparation and tests or a foreground session driver in the main command.
 - Strings in identities, command/hook arguments, and command environment values expand `{lane}`, `{project}`, `{repo}`, `{worktree}`, and `{state}`. Other braces are literal. `{state}` is a lane-owned directory underneath the registry, created before execution. It is not deleted by lane removal.
-- Commands also receive `LANES_ID`, `LANES_PROJECT`, `LANES_WORKTREE`, `LANES_STATE_DIR`, and `LANES_RUN_TOKEN`.
+- Commands also receive `LANES_REGISTRY` (the resolved active registry), `LANES_ID`, `LANES_PROJECT`, `LANES_WORKTREE`, `LANES_STATE_DIR`, and `LANES_RUN_TOKEN`.
 
 Use named commands for provisioning, snapshots, or deliberate storage cleanup under claims. Shared storage cleanup must be an explicit project operation, never a side effect of lane removal. Hooks run trusted project code with the caller's permissions: review configuration before executing an unfamiliar branch.
 

@@ -336,6 +336,25 @@ class LanesTest(unittest.TestCase):
         self.assertEqual(registry.db.execute("SELECT count(*) FROM claims WHERE resource='db:source'")
                          .fetchone()[0], 0)
 
+    def test_command_inherits_resolved_registry_and_lane_environment(self):
+        marker = self.home / "environment.json"
+        self.config["commands"]["environment"] = {
+            "argv": [sys.executable, "-c",
+                     "import json,os,pathlib,sys; pathlib.Path(sys.argv[1]).write_text("
+                     "json.dumps({k:v for k,v in os.environ.items() if k.startswith('LANES_')}))",
+                     str(marker)],
+            "env": {"LANES_REGISTRY": "must-be-overridden"}}
+        self.commit_config()
+        lane = self.lane()
+        self.cli("run", "one", "environment")
+        env = json.loads(marker.read_text())
+        self.assertEqual(env["LANES_REGISTRY"], str(self.state))
+        self.assertEqual(env["LANES_ID"], "one")
+        self.assertEqual(env["LANES_WORKTREE"], lane["worktree"])
+        self.assertEqual(env["LANES_PROJECT"], self.key)
+        self.assertTrue(env["LANES_RUN_TOKEN"])
+        self.assertTrue(Path(env["LANES_STATE_DIR"]).is_dir())
+
     def test_init_does_not_overwrite(self):
         original = (self.repo / "lanes.json").read_text()
         self.assertEqual(self.cli("init", ok=False).returncode, 2)

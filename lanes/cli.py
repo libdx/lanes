@@ -324,7 +324,8 @@ def run_lane(args, registry, project_key):
         Path(variables["state"]).mkdir(parents=True, exist_ok=True)
         env = dict(os.environ)
         env.update(extra_env)
-        env.update({"LANES_ID": args.lane, "LANES_PROJECT": project_key,
+        env.update({"LANES_REGISTRY": str(registry.directory),
+                    "LANES_ID": args.lane, "LANES_PROJECT": project_key,
                     "LANES_WORKTREE": str(root), "LANES_STATE_DIR": variables["state"],
                     "LANES_RUN_TOKEN": token})
         def record_child(pid, child_command):
